@@ -1,0 +1,44 @@
+- name: Install SNMP packages
+  apt:
+    name:
+      - snmp
+      - snmpd
+      - snmp-mibs-downloader
+      - libsnmp-dev
+    update_cache: yes
+
+- name: Stop SNMP daemon before configuration
+  systemd:
+    name: snmpd
+    state: stopped
+
+- name: Create SNMPv3 user (idempotent)
+  command: >
+    net-snmp-create-v3-user
+    -ro
+    -a {{ snmp_auth_protocol }}
+    -A "{{ snmp_auth_password }}"
+    -x {{ snmp_priv_protocol }}
+    -X "{{ snmp_priv_password }}"
+    {{ snmp_user }}
+  args:
+    creates: "/var/lib/snmp/snmpd.conf"
+
+- name: Deploy snmpd.conf
+  template:
+    src: snmpd.conf.j2
+    dest: /etc/snmp/snmpd.conf
+    mode: '0644'
+
+- name: Enable and start SNMP service
+  systemd:
+    name: snmpd
+    enabled: yes
+    state: started
+
+- name: Allow SNMP port in UFW (if enabled)
+  ufw:
+    rule: allow
+    port: 161
+    proto: udp
+  when: ansible_facts.services['ufw'] is defined

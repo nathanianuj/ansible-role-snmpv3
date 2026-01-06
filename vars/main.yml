@@ -1,0 +1,8 @@
+snmp_user: Hero
+snmp_auth_protocol: SHA
+snmp_auth_password: Hero12345
+snmp_priv_protocol: AES
+snmp_priv_password: Hero12345
+
+sys_location: "Incus Test Lab"
+sys_contact: "anuj@example.com"
