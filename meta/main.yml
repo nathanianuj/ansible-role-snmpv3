@@ -1,0 +1,30 @@
+galaxy_info:
+  role_name: snmpv3
+  author: Anuj Nathani
+  description: >
+    Installs and configures SNMPv3 (authPriv) on Linux hosts to act as secure SNMP targets
+    for monitoring systems such as Prometheus SNMP Exporter or Nagios.
+  company: ""
+  license: MIT
+  min_ansible_version: "2.12"
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+    - name: Debian
+      versions:
+        - bullseye
+        - bookworm
+
+  galaxy_tags:
+    - snmp
+    - snmpv3
+    - monitoring
+    - prometheus
+    - nagios
+    - security
+    - networking
+
+dependencies: []
